@@ -1,2 +1,2 @@
-vim/swp/*
-vim/backup/*
+vim/swp/*.swp
+vim/backup/*.bak
