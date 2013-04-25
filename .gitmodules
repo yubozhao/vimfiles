@@ -1,0 +1,3 @@
+[submodule "vim/bundle/vim-distinguished"]
+	path = vim/bundle/vim-distinguished
+	url = https://github.com/Lokaltog/vim-distinguished.git
