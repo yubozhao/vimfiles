@@ -1,9 +1,6 @@
 [submodule "vim/bundle/vim-distinguished"]
 	path = vim/bundle/vim-distinguished
 	url = https://github.com/Lokaltog/vim-distinguished.git
-[submodule "vim/bundle/vim-snippets"]
-	path = vim/bundle/vim-snippets
-	url = https://github.com/honza/vim-snippets
 [submodule "vim/bundle/snipmate"]
 	path = vim/bundle/snipmate
 	url = https://github.com/msanders/snipmate.vim.git
