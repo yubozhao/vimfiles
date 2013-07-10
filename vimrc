@@ -109,3 +109,6 @@ nnoremap <silent> <c-l> :wincmd l<cr>
 " Exit insert mode and write file
 inoremap <leader>w <Esc> :w<cr>
 nnoremap <leader>w :w<cr>
+
+" Key Bindings for NerdTree
+nmap 'o :NERDTreeToggle<CR>
