@@ -37,6 +37,7 @@ set backspace=indent,eol,start
 set completeopt=longest,menu
 set wildmode=list:longest,list:full
 set complete=.,t
+set list
 
 highlight ColorColumn ctermbg=white
 
