@@ -111,4 +111,8 @@ inoremap <leader>w <Esc> :w<cr>
 nnoremap <leader>w :w<cr>
 
 " Key Bindings for NerdTree
-nmap 'o :NERDTreeToggle<CR>
+nnoremap 'o :NERDTreeToggle<CR>
+nnoremap 'u :GundoToggle<CR>
+
+" Commands
+command! KillWhitespace :normal :%s/ *$//g<cr><c-o><cr>
