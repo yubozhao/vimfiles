@@ -1,11 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/Users/yubozhao/codes/eventedmind/emind-next'
-let g:netrw_dirhist_2='/Users/yubozhao/vimfiles/vim/bundle'
-let g:netrw_dirhist_3='/Users/yubozhao'
-let g:netrw_dirhist_4='/Users/yubozhao/vimfiles/vim/bundle/vim-airline/autoload/airline'
-let g:netrw_dirhist_5='/Users/yubozhao/vimfiles/vim/bundle/vim-airline/plugin'
-let g:netrw_dirhist_6='/Users/yubozhao/codes'
-let g:netrw_dirhist_7='/Users/yubozhao/codes/eventedmind/emind-next'
-let g:netrw_dirhist_8='/Users/yubozhao/code'
-let g:netrw_dirhist_9='/Users/yubozhao/code/eventedmind/emind-next'
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/Users/yubozhao/code/eventedmind/emind-next'
+let g:netrw_dirhist_2='/Users/yubozhao/code/eventedmind'
+let g:netrw_dirhist_3='/Users/yubozhao/code/eventedmind/emind-next'
+let g:netrw_dirhist_4='/Users/yubozhao/code/eventedmind/emind-next/server'
+let g:netrw_dirhist_5='/Users/yubozhao/code/eventedmind/emind-next'
