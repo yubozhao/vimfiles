@@ -4,7 +4,8 @@ syntax on
 filetype plugin indent on
 
 " Color Scheme
-" colorscheme distinguished
+set background=dark
+colorscheme solarized
 
 " Settings
 set nocompatible
