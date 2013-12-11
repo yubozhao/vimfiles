@@ -4,10 +4,17 @@ syntax on
 filetype plugin indent on
 
 " Color Scheme
-set background=dark
+let hour = strftime("%H")
+if 7 <= hour && hour < 19
+  set background=dark
+else
+  set background=dark
+endif
+
 colorscheme solarized
 
 " Settings
+set spell spelllang=en_us
 set nocompatible
 set sh=/bin/bash
 set backupdir=~/.vim/backup//
@@ -40,6 +47,7 @@ set wildmode=list:longest,list:full
 set complete=.,t
 set list
 
+let g:snips_trigger_key = '<C-\>'
 highlight ColorColumn ctermbg=white
 
 if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
