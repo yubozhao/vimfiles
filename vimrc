@@ -1,12 +1,33 @@
-call pathogen#infect()
-call pathogen#helptags()
+"call pathogen#infect()
+"call pathogen#helptags()
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" Vundle stuff testing
+
+Bundle 'gmarik/vundle'
+Bundle 'tpope/vim-fugitive'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'bling/vim-airline'
+Bundle 'scrooloose/nerdtree'
+Bundle 'tpope/vim-surround'
+Bundle 'kien/ctrlp.vim'
+Bundle 'sjl/gundo.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'marijnh/tern_for_vim'
+Bundle 'SirVer/ultisnips'
+"Bundle 'Valloric/YouCompleteMe'
+
 syntax on
 filetype plugin indent on
+
+
 
 " Color Scheme
 let hour = strftime("%H")
 if 7 <= hour && hour < 19
-  set background=dark
+  set background=light
 else
   set background=dark
 endif
@@ -125,3 +146,18 @@ nnoremap 'u :GundoToggle<CR>
 
 " Commands
 command! KillWhitespace :normal :%s/ *$//g<cr><c-o><cr>
+
+" Ctrl P commands
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+" airline config
+""enable paste detection >
+  let g:airline_detect_paste=1
+""enable/disable detection of whitespace errors. >
+  let g:airline#extensions#whitespace#enabled = 1
+""enable/disable tmuxline integration >
+  let g:airline#extensions#tmuxline#enabled = 0
