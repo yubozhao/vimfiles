@@ -1,6 +1,7 @@
 "call pathogen#infect()
 "call pathogen#helptags()
 
+set encoding=utf-8
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 " Vundle stuff testing
@@ -17,14 +18,15 @@ Bundle 'sjl/gundo.vim'
 Bundle 'mileszs/ack.vim'
 Bundle 'marijnh/tern_for_vim'
 Bundle 'SirVer/ultisnips'
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'edkolev/tmuxline.vim'
+Bundle 'Valloric/YouCompleteMe'
 
 syntax on
 filetype plugin indent on
 
-
-
 " Color Scheme
+set t_Co=256
+
 let hour = strftime("%H")
 if 7 <= hour && hour < 19
   set background=light
@@ -157,7 +159,27 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " airline config
 ""enable paste detection >
   let g:airline_detect_paste=1
-""enable/disable detection of whitespace errors. >
+""enable/disable detection of whitespace errors.
   let g:airline#extensions#whitespace#enabled = 1
 ""enable/disable tmuxline integration >
-  let g:airline#extensions#tmuxline#enabled = 0
+  let g:airline#extensions#tmuxline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+
+" To get YCM and Ultisnip to work together on tab key
+function! g:UltiSnips_Complete()
+  call UltiSnips_ExpandSnippet()
+  if g:ulti_expand_res == 0
+    if pumvisible()
+      return "\<C-n>"
+    else
+      call UltiSnips_JumpForwards()
+      if g:ulti_jump_forwards_res == 0
+        return "\<TAB>"
+      endif
+    endif
+  endif
+  return ""
+endfunction
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
