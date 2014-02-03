@@ -166,6 +166,9 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 let g:airline_powerline_fonts = 1
 
 
+"
+let g:tern_show_argument_hints = 'on_move'
+
 " To get YCM and Ultisnip to work together on tab key
 function! g:UltiSnips_Complete()
   call UltiSnips_ExpandSnippet()
