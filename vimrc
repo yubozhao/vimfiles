@@ -98,19 +98,20 @@ let g:tern_show_argument_hints = 'on_move'
 " Color Scheme
 NeoBundle 'altercation/vim-colors-solarized'
 set t_Co=256
+colorscheme solarized
 let g:solarized_termcolors = 256
 let g:solarized_termtrans = 0 " set to 1 if using transparant background
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
-"
+
 "" Change color base on time
 let hour = strftime("%H")
-if 7 <= hour && hour < 19
+if (7 <= hour && hour < 19)
   set background=light
 else
   set background=dark
 endif
-colorscheme solarized
+
 
 " airline config
 NeoBundle 'bling/vim-airline'
