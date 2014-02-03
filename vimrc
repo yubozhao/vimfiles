@@ -1,42 +1,85 @@
-"call pathogen#infect()
-"call pathogen#helptags()
+if has('vim_starting')
+  set nocompatible               " Be iMproved
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
 
-set encoding=utf-8
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" Vundle stuff testing
+call neobundle#rc(expand('~/.vim/bundle/'))
 
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'bling/vim-airline'
-Bundle 'scrooloose/nerdtree'
-Bundle 'tpope/vim-surround'
-Bundle 'kien/ctrlp.vim'
-Bundle 'sjl/gundo.vim'
-Bundle 'mileszs/ack.vim'
-Bundle 'marijnh/tern_for_vim'
-Bundle 'SirVer/ultisnips'
-Bundle 'edkolev/tmuxline.vim'
-Bundle 'Valloric/YouCompleteMe'
+" Bundler that knows how to 'make'
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-syntax on
-filetype plugin indent on
+" Run and manage child processes, dependency of many other plugins
+NeoBundle 'Shougo/vimproc'
+
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'kshenoy/vim-signature'
+
+" Ultimate UI system for running fuzzy-search on different things {{{
+NeoBundle 'Shougo/unite.vim'
+" Always start insert mode
+let g:unite_enable_start_insert = 1
+let g:unite_source_history_yank_enable = 1
+let g:unite_split_rule = "botright"
+" Search settings
+if exists("*unite")
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#filters#sorter_default#use(['sorter_rank'])
+  call unite#set_profile('files', 'smartcase', 1)
+endif
+"}}}
+
+"shell in my VIM {{{
+NeoBundle "Shougo/vimshell"
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+let g:vimshell_prompt =  '$ '
+if has("gui_running")
+  let g:vimshell_editor_command = "mvim"
+  endif
+" }}}
+
+" Tern js settings
+NeoBundle 'marijnh/tern_for_vim'
+let g:tern_show_argument_hints = 'on_move'
 
 " Color Scheme
+NeoBundle 'altercation/vim-colors-solarized'
 set t_Co=256
-
+let g:solarized_termcolors = 256
+let g:solarized_termtrans = 0 " set to 1 if using transparant background
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
+"
+"" Change color base on time
 let hour = strftime("%H")
 if 7 <= hour && hour < 19
   set background=light
 else
   set background=dark
 endif
-
 colorscheme solarized
 
+" airline config
+NeoBundle 'bling/vim-airline'
+NeoBundle 'edkolev/tmuxline.vim'
+set encoding=utf-8
+""enable paste detection >
+let g:airline_detect_paste=1
+""enable/disable detection of whitespace errors.
+let g:airline#extensions#whitespace#enabled = 1
+""enable/disable tmuxline integration >
+let g:airline#extensions#tmuxline#enabled = 1
+let g:airline_powerline_fonts = 1
+
 " Settings
+
+syntax on
+filetype plugin indent on
+
 set spell spelllang=en_us
 set nocompatible
 set sh=/bin/bash
@@ -149,40 +192,5 @@ nnoremap 'u :GundoToggle<CR>
 " Commands
 command! KillWhitespace :normal :%s/ *$//g<cr><c-o><cr>
 
-" Ctrl P commands
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-
-" airline config
-""enable paste detection >
-  let g:airline_detect_paste=1
-""enable/disable detection of whitespace errors.
-  let g:airline#extensions#whitespace#enabled = 1
-""enable/disable tmuxline integration >
-  let g:airline#extensions#tmuxline#enabled = 1
-let g:airline_powerline_fonts = 1
-
-
-"
+" Tern js settings Tern js settings
 let g:tern_show_argument_hints = 'on_move'
-
-" To get YCM and Ultisnip to work together on tab key
-function! g:UltiSnips_Complete()
-  call UltiSnips_ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips_JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
