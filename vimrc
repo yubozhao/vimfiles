@@ -19,6 +19,51 @@ NeoBundle 'jiangmiao/auto-pairs'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'kshenoy/vim-signature'
 
+"Neocomplete {{{
+NeoBundle 'Shougo/neocomplete.vim'
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"}}}
+
+" I am all in this neo family shit, now for neosnippet, this better be the ONE
+" {{{
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+" }}}
+
+
+
 " Ultimate UI system for running fuzzy-search on different things {{{
 NeoBundle 'Shougo/unite.vim'
 " Always start insert mode
@@ -31,6 +76,10 @@ if exists("*unite")
   call unite#filters#sorter_default#use(['sorter_rank'])
   call unite#set_profile('files', 'smartcase', 1)
 endif
+" search like ctrl p
+nnoremap <C-p> :Unite file_rec/async<cr>
+
+
 "}}}
 
 "shell in my VIM {{{
