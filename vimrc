@@ -9,7 +9,12 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Run and manage child processes, dependency of many other plugins
-NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc', {
+  \  'build': {
+  \    'mac': 'make -f make_mac.mak',
+  \    'unix': 'make -f make_unix.mak'
+  \  },
+  \}
 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'scrooloose/nerdtree'
@@ -70,16 +75,33 @@ NeoBundle 'Shougo/unite.vim'
 let g:unite_enable_start_insert = 1
 let g:unite_source_history_yank_enable = 1
 let g:unite_split_rule = "botright"
+let g:unite_source_grep_command='ag'
 " Search settings
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ '\.git/',
+      \ '\.meteor/',
+      \ ], '\|'))
+
 if exists("*unite")
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
   call unite#filters#sorter_default#use(['sorter_rank'])
   call unite#set_profile('files', 'smartcase', 1)
 endif
 " search like ctrl p
-nnoremap <C-p> :Unite file_rec/async<cr>
+nnoremap <C-P> :<C-u>Unite  -buffer-name=files   -start-insert buffer file_rec/async:!<cr>
 
-
+"
+autocmd FileType unite call s:unite_settings()
+function! s:unite_settings()
+  let b:SuperTabDisabled=1
+  "imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  "imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  "imap <silent><buffer><expr> <C-x> unite#do_action('split')
+  imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  "imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+  "nmap <buffer> <ESC> <Plug>(unite_exit)
+endfunction
 "}}}
 
 "shell in my VIM {{{
