@@ -3,11 +3,10 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 " Bundler that knows how to 'make'
 NeoBundleFetch 'Shougo/neobundle.vim'
-
 " Run and manage child processes, dependency of many other plugins
 NeoBundle 'Shougo/vimproc', {
   \  'build': {
@@ -17,15 +16,33 @@ NeoBundle 'Shougo/vimproc', {
   \}
 
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'sjl/gundo.vim'
 NeoBundle 'jiangmiao/auto-pairs'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'pangloss/vim-javascript'
+" NeoBundle 'Yggdroot/indentLine'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'Shougo/neocomplete.vim'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle "Shougo/vimshell"
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'bling/vim-airline'
+NeoBundle 'edkolev/tmuxline.vim'
+
+call neobundle#end()
+
+
+
+" Key Bindings for NerdTree
+nnoremap 'o :NERDTreeToggle<CR>
+nnoremap 'u :GundoToggle<CR>
 
 "Neocomplete {{{
-NeoBundle 'Shougo/neocomplete.vim'
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -51,8 +68,6 @@ endif
 
 " I am all in this neo family shit, now for neosnippet, this better be the ONE
 " {{{
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
 " SuperTab like snippets behavior.
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
@@ -70,7 +85,6 @@ let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
 
 
 " Ultimate UI system for running fuzzy-search on different things {{{
-NeoBundle 'Shougo/unite.vim'
 " Always start insert mode
 let g:unite_enable_start_insert = 1
 let g:unite_source_history_yank_enable = 1
@@ -105,7 +119,6 @@ endfunction
 "}}}
 
 "shell in my VIM {{{
-NeoBundle "Shougo/vimshell"
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 let g:vimshell_prompt =  '$ '
 if has("gui_running")
@@ -114,19 +127,16 @@ if has("gui_running")
 " }}}
 
 " Tern js settings
-NeoBundle 'marijnh/tern_for_vim'
 let g:tern_show_argument_hints = 'on_move'
 
 " Color Scheme
-NeoBundle 'altercation/vim-colors-solarized'
 set t_Co=256
 colorscheme solarized
 let g:solarized_termcolors = 256
-let g:solarized_termtrans = 0 " set to 1 if using transparant background
+let g:solarized_termtrans = 1 " set to 1 if using transparant background
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 
-"" Change color base on time
 let hour = strftime("%H")
 if (7 <= hour && hour < 19)
   set background=light
@@ -134,10 +144,7 @@ else
   set background=dark
 endif
 
-
 " airline config
-NeoBundle 'bling/vim-airline'
-NeoBundle 'edkolev/tmuxline.vim'
 set encoding=utf-8
 ""enable paste detection >
 let g:airline_detect_paste=1
@@ -146,6 +153,13 @@ let g:airline#extensions#whitespace#enabled = 1
 ""enable/disable tmuxline integration >
 let g:airline#extensions#tmuxline#enabled = 1
 let g:airline_powerline_fonts = 1
+
+" Syntax checking
+" NeoBundle 'scrooloose/syntastic'
+" let g:syntastic_javascript_checkers = ['jslint']
+" nnoremap 's :SyntasticToggleMode<CR>
+
+
 
 " Settings
 
@@ -183,7 +197,13 @@ set backspace=indent,eol,start
 set completeopt=longest,menu
 set wildmode=list:longest,list:full
 set complete=.,t
-set list
+" Show hiddent characters
+" set list
+
+highlight cursorline gui=none guibg=grey10
+set cursorline
+highlight NoHightLight gui=none
+match NoHightLight /\S\+\(\s\+\|$\)/
 
 let g:snips_trigger_key = '<C-\>'
 highlight ColorColumn ctermbg=white
@@ -240,9 +260,6 @@ let mapleader = ","
 inoremap kj <Esc>
 nnoremap <Leader>n :call NumberToggle()<cr>
 
-" Is this for autocomplete?
-" imap <Tab> <C-N>
-
 " Split windows
 nnoremap <Leader>s :sp<cr><C-w><C-w>
 nnoremap <Leader>v :vsp<cr><C-w><C-w>
@@ -257,12 +274,5 @@ nnoremap <silent> <c-l> :wincmd l<cr>
 inoremap <leader>w <Esc> :w<cr>
 nnoremap <leader>w :w<cr>
 
-" Key Bindings for NerdTree
-nnoremap 'o :NERDTreeToggle<CR>
-nnoremap 'u :GundoToggle<CR>
-
 " Commands
 command! KillWhitespace :normal :%s/ *$//g<cr><c-o><cr>
-
-" Tern js settings Tern js settings
-let g:tern_show_argument_hints = 'on_move'

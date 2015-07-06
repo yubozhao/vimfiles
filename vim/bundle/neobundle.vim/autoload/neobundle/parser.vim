@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: parser.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu at gmail.com>
-" Last Modified: 03 Jan 2014.
+"          Copyright (C) 2010 http://github.com/gmarik
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -30,11 +30,16 @@ set cpo&vim
 function! neobundle#parser#bundle(arg, ...) "{{{
   let bundle = s:parse_arg(a:arg)
   let is_parse_only = get(a:000, 0, 0)
-  if empty(bundle) || is_parse_only
-    return bundle
-  endif
+  if !is_parse_only
+    call neobundle#config#add(bundle)
 
-  call neobundle#config#add(bundle)
+    if !neobundle#config#within_block()
+          \ && !bundle.lazy && has('vim_starting')
+      call neobundle#util#print_error(
+            \ '[neobundle] `NeoBundle` commands must be executed within' .
+            \ ' a neobundle#begin/end block.  Please check your usage.')
+    endif
+  endif
 
   return bundle
 endfunction"}}}
@@ -48,6 +53,7 @@ function! neobundle#parser#lazy(arg) "{{{
   " Update lazy flag.
   let bundle.lazy = 1
   let bundle.resettable = 0
+  let bundle.orig_opts.lazy = 1
   for depend in bundle.depends
     let depend.lazy = bundle.lazy
     let depend.resettable = 0
@@ -119,7 +125,7 @@ function! neobundle#parser#direct(arg) "{{{
   call neobundle#config#save_direct(a:arg)
 
   " Direct install.
-  call neobundle#installer#install(0, bundle.name)
+  call neobundle#commands#install(0, bundle.name)
 
   return bundle
 endfunction"}}}
@@ -144,8 +150,10 @@ function! s:parse_arg(arg) "{{{
 endfunction"}}}
 
 function! neobundle#parser#_init_bundle(name, opts) "{{{
-  let path = neobundle#util#expand(
-        \ substitute(a:name, "['".'"]\+', '', 'g'))
+  let path = substitute(a:name, "['".'"]\+', '', 'g')
+  if path[0] == '~'
+    let path = neobundle#util#expand(path)
+  endif
   let opts = s:parse_options(a:opts)
   if !has_key(opts, 'recipe')
     let opts.recipe = ''
@@ -160,24 +168,68 @@ function! neobundle#parser#_init_bundle(name, opts) "{{{
   let bundle.orig_name = a:name
   let bundle.orig_path = path
   let bundle.orig_opts = opts
+  let bundle.orig_arg = string(a:name).', '.string(opts)
 
   let bundle = neobundle#init#_bundle(bundle)
 
   return bundle
 endfunction"}}}
 
-function! neobundle#parser#local(localdir, options, names) "{{{
-  for dir in filter(map(filter(split(glob(fnamemodify(
-        \ neobundle#util#expand(a:localdir), ':p')
-        \ . '*'), '\n'), "isdirectory(v:val)"),
-        \ "neobundle#util#substitute_path_separator(
-        \   substitute(fnamemodify(v:val, ':p'), '/$', '', ''))"),
-        \ "empty(a:names) || index(a:names, fnamemodify(v:val, ':t')) >= 0")
-    call neobundle#parser#bundle([dir,
-          \ extend({
-          \   'local' : 1,
-          \   'base' : neobundle#util#substitute_path_separator(
-          \              fnamemodify(a:localdir, ':p')), }, a:options)])
+function! neobundle#parser#local(localdir, options, includes) "{{{
+  let base = fnamemodify(neobundle#util#expand(a:localdir), ':p')
+  let directories = []
+  for glob in a:includes
+    let directories += map(filter(split(glob(base . glob), '\n'),
+          \ "isdirectory(v:val)"), "
+          \ substitute(neobundle#util#substitute_path_separator(
+          \   fnamemodify(v:val, ':p')), '/$', '', '')")
+  endfor
+  for dir in neobundle#util#uniq(directories)
+    let options = extend({ 'local' : 1, 'base' : base }, a:options)
+    let name = fnamemodify(dir, ':t')
+    let bundle = neobundle#get(name)
+    if !empty(bundle)
+      call extend(options, copy(bundle.orig_opts))
+      if bundle.lazy
+        let options.lazy = 1
+      endif
+
+      " Remove from lazy runtimepath
+      call filter(neobundle#config#get_lazy_rtp_bundles(),
+            \ "fnamemodify(v:val.rtp, ':h:t') != name")
+    endif
+
+    call neobundle#parser#bundle([dir, options])
+  endfor
+endfunction"}}}
+
+function! neobundle#parser#load_toml(filename, default) "{{{
+  try
+    let toml = neobundle#TOML#parse_file(neobundle#util#expand(a:filename))
+  catch /vital: Text.TOML:/
+    call neobundle#util#print_error(
+          \ '[neobundle] Invalid toml format: ' . a:filename)
+    call neobundle#util#print_error(v:exception)
+    return 1
+  endtry
+  if type(toml) != type({}) || !has_key(toml, 'plugins')
+    call neobundle#util#print_error(
+          \ '[neobundle] Invalid toml file: ' . a:filename)
+    return 1
+  endif
+
+  " Parse.
+  for plugin in toml.plugins
+    if !has_key(plugin, 'repository')
+      call neobundle#util#print_error(
+            \ '[neobundle] No repository plugin data: ' . a:filename)
+      return 1
+    endif
+
+    let options = extend(plugin, a:default, 'keep')
+    " echomsg plugin.repository
+    " echomsg string(options)
+    call neobundle#parser#bundle([plugin.repository, options])
   endfor
 endfunction"}}}
 
@@ -193,46 +245,51 @@ function! neobundle#parser#path(path, ...) "{{{
 
   if has_key(opts, 'type')
     let type = neobundle#config#get_types(opts.type)
-    if empty(type)
-      return {}
+    let types = empty(type) ? [] : [type]
+  else
+    let detect = neobundle#config#get_types('git').detect(path, opts)
+    if !empty(detect)
+      let detect.name = neobundle#util#name_conversion(path)
+      return detect
     endif
 
-    let types = [type]
-  else
     let types = neobundle#config#get_types()
   endif
 
+  let detect = {}
   for type in types
     let detect = type.detect(path, opts)
-
     if !empty(detect)
-      return detect
+      break
     endif
   endfor
 
-  if isdirectory(path)
+  if empty(detect) && isdirectory(path)
     " Detect nosync type.
-    return { 'name' : split(path, '/')[-1],
-          \  'uri' : path, 'type' : 'nosync' }
+    return { 'uri' : path, 'type' : 'nosync' }
   endif
 
-  return {}
+  if !empty(detect) && !has_key(detect, 'name')
+    let detect.name = neobundle#util#name_conversion(path)
+  endif
+
+  return detect
 endfunction"}}}
 
 function! neobundle#parser#_function_prefix(name) "{{{
   let function_prefix = tolower(fnamemodify(a:name, ':r'))
   let function_prefix = substitute(function_prefix,
-        \'^vim-', '','')
+        \'^vim-\|-vim$', '','')
   let function_prefix = substitute(function_prefix,
         \'^unite-', 'unite#sources#','')
-  let function_prefix = substitute(function_prefix,
-        \'-', '_', 'g')
+  let function_prefix = tr(function_prefix, '-', '_')
   return function_prefix
 endfunction"}}}
 
 function! s:parse_options(opts) "{{{
   if empty(a:opts)
-    return get(g:neobundle#default_options, '_', {})
+    return has_key(g:neobundle#default_options, '_') ?
+          \ copy(g:neobundle#default_options['_']) : {}
   endif
 
   if len(a:opts) == 3
