@@ -1,8 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/Users/yubozhao/code/eventedmind/emind-next'
 let g:netrw_dirhist_2='/Users/yubozhao/code/eventedmind'
 let g:netrw_dirhist_3='/Users/yubozhao/code/eventedmind/emind-next'
 let g:netrw_dirhist_4='/Users/yubozhao/code/eventedmind/emind-next/server'
 let g:netrw_dirhist_5='/Users/yubozhao/code/eventedmind/emind-next'
 let g:netrw_dirhist_6='/Users/yubz86/Dropbox/BoShare/sorted'
+let g:netrw_dirhist_7='/Users/bozhaoyu/.vim'
+let g:netrw_dirhist_8='/Users/bozhaoyu/vimfiles/vim'

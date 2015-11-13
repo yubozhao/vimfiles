@@ -1,148 +1,49 @@
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-" Bundler that knows how to 'make'
-NeoBundleFetch 'Shougo/neobundle.vim'
-" Run and manage child processes, dependency of many other plugins
-NeoBundle 'Shougo/vimproc', {
-  \  'build': {
-  \    'mac': 'make -f make_mac.mak',
-  \    'unix': 'make -f make_unix.mak'
-  \  },
-  \}
-
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'jiangmiao/auto-pairs'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'pangloss/vim-javascript'
-" NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle "Shougo/vimshell"
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'marijnh/tern_for_vim'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'edkolev/tmuxline.vim'
-
-call neobundle#end()
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+" Editor Basis
+Bundle 'tpope/vim-fugitive'
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-surround'
+Bundle 'scrooloose/nerdtree'
+Bundle 'Xuyuanp/nerdtree-git-plugin'
+Bundle 'mileszs/ack.vim'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'sjl/gundo.vim'
+Plugin 'bling/vim-airline'
+Bundle 'edkolev/tmuxline.vim'
+Bundle 'altercation/vim-colors-solarized'
+Plugin 'mxw/vim-jsx'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
+" jsx in js
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " Key Bindings for NerdTree
 nnoremap 'o :NERDTreeToggle<CR>
 nnoremap 'u :GundoToggle<CR>
 
-"Neocomplete {{{
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'"
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"}}}
+" key Bindings for ctrl p
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
-" I am all in this neo family shit, now for neosnippet, this better be the ONE
-" {{{
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-" }}}
-
-
-
-" Ultimate UI system for running fuzzy-search on different things {{{
-" Always start insert mode
-let g:unite_enable_start_insert = 1
-let g:unite_source_history_yank_enable = 1
-let g:unite_split_rule = "botright"
-let g:unite_source_grep_command='ag'
-" Search settings
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ '\.meteor/',
-      \ ], '\|'))
-
-if exists("*unite")
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#filters#sorter_default#use(['sorter_rank'])
-  call unite#set_profile('files', 'smartcase', 1)
-endif
-" search like ctrl p
-nnoremap <C-P> :<C-u>Unite  -buffer-name=files   -start-insert buffer file_rec/async:!<cr>
-
-"
-autocmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  let b:SuperTabDisabled=1
-  "imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  "imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-  "imap <silent><buffer><expr> <C-x> unite#do_action('split')
-  imap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  "imap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
-  "nmap <buffer> <ESC> <Plug>(unite_exit)
-endfunction
-"}}}
-
-"shell in my VIM {{{
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt =  '$ '
-if has("gui_running")
-  let g:vimshell_editor_command = "mvim"
-  endif
-" }}}
 
 " Tern js settings
-let g:tern_show_argument_hints = 'on_move'
-
-" Color Scheme
-set t_Co=256
-colorscheme solarized
-let g:solarized_termcolors = 256
-let g:solarized_termtrans = 1 " set to 1 if using transparant background
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
-
-let hour = strftime("%H")
-if (7 <= hour && hour < 19)
-  set background=light
-else
-  set background=dark
-endif
+"let g:tern_show_argument_hints = 'on_move'
 
 " airline config
 set encoding=utf-8
@@ -154,15 +55,8 @@ let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 1
 let g:airline_powerline_fonts = 1
 
-" Syntax checking
-" NeoBundle 'scrooloose/syntastic'
-" let g:syntastic_javascript_checkers = ['jslint']
-" nnoremap 's :SyntasticToggleMode<CR>
-
-
 
 " Settings
-
 syntax on
 filetype plugin indent on
 
