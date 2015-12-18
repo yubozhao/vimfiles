@@ -18,11 +18,11 @@ Bundle 'Xuyuanp/nerdtree-git-plugin'
 Bundle 'mileszs/ack.vim'
 Bundle 'kien/rainbow_parentheses.vim'
 Bundle 'sjl/gundo.vim'
-Plugin 'bling/vim-airline'
 Bundle 'edkolev/tmuxline.vim'
 Bundle 'altercation/vim-colors-solarized'
 Plugin 'mxw/vim-jsx'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
 
 
 " All of your Plugins must be added before the following line
@@ -32,6 +32,18 @@ filetype plugin indent on    " required
 
 " jsx in js
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+
+" let eslint does lint check"
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+
 
 " Key Bindings for NerdTree
 nnoremap 'o :NERDTreeToggle<CR>
@@ -59,7 +71,6 @@ let g:airline_powerline_fonts = 1
 " Settings
 syntax on
 filetype plugin indent on
-
 set spell spelllang=en_us
 set nocompatible
 set sh=/bin/bash
