@@ -55,6 +55,9 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 " Bazel
 Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
 
+" golang
+Plug 'fatih/vim-go', { 'for': ['golang', 'go'] }
+
 call plug#end()
 
 " Basic settings and key bindings
@@ -73,6 +76,7 @@ source ~/.vim/config/plugins/denite.vim
 source ~/.vim/config/plugins/syntastic.vim
 source ~/.vim/config/plugins/gitgutter.vim
 source ~/.vim/config/plugins/nerdtree.vim
+source ~/.vim/config/plugins/vim-go.vim
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim
 else
