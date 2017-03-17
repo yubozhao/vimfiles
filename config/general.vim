@@ -98,3 +98,7 @@ set pastetoggle=<F2>
 inoremap jj <Esc><Esc>
 inoremap jk <Esc><Esc>
 inoremap kj <Esc><Esc>
+
+" split windows
+nnoremap <Leader>s :sp<cr><C-w><C-w>
+nnoremap <Leader>v :vsp<cr><C-w><C-w>
