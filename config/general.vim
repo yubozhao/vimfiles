@@ -102,3 +102,7 @@ inoremap kj <Esc><Esc>
 " split windows
 nnoremap <Leader>s :sp<cr><C-w><C-w>
 nnoremap <Leader>v :vsp<cr><C-w><C-w>
+
+" Exit insert mode and write file
+inoremap <leader>w <Esc> :w<cr>
+nnoremap <leader>w :w<cr>
