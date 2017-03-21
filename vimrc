@@ -28,6 +28,10 @@ endif
 " Auto completion for quotes, parens, brackets
 Plug 'Raimondi/delimitMate'
 
+
+" General plugin
+Plug 'jkirchartz/writegooder.vim'
+
 """ Language specific plugins
 
 " scala
