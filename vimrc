@@ -41,7 +41,7 @@ Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 "Plug 'ensime/ensime-vim'
 
 " Go
-Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries', 'for': 'go' }
 
 " docker
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
@@ -58,6 +58,10 @@ Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
+
+" typescript
+Plug 'mhartington/nvim-typescript', { 'for': ['javascript', 'typescript', 'typescript.tsx', 'javascript.ts', 'javascript.tsx'] }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': ['javascript', 'typescript', 'typescript.tsx', 'javascript.ts', 'javascript.tsx'] }
 
 " Bazel
 Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
