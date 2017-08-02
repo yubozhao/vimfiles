@@ -60,8 +60,8 @@ Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
 
 " typescript
-Plug 'mhartington/nvim-typescript', { 'for': ['javascript', 'typescript', 'typescript.tsx', 'javascript.ts', 'javascript.tsx'] }
-Plug 'HerringtonDarkholme/yats.vim', { 'for': ['javascript', 'typescript', 'typescript.tsx', 'javascript.ts', 'javascript.tsx'] }
+Plug 'mhartington/nvim-typescript', { 'for': ['typescript', 'typescript.tsx'] }
+Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'typescript.tsx'] }
 
 " Bazel
 Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
@@ -70,6 +70,16 @@ Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
 Plug 'fatih/vim-go', { 'for': ['golang', 'go'] }
 
 call plug#end()
+
+" use the correct python
+if exists("$VIRTUAL_ENV")
+    let g:python_host_prog=substitute(system("which -a python2 | head -n2 | tail -n1"), "\n", '', 'g')
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+else
+    let g:python_host_prog=substitute(system("which python2"), "\n", '', 'g')
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+endif
+
 
 " Basic settings and key bindings
 source ~/.vim/config/general.vim
@@ -88,6 +98,7 @@ source ~/.vim/config/plugins/syntastic.vim
 source ~/.vim/config/plugins/gitgutter.vim
 source ~/.vim/config/plugins/nerdtree.vim
 source ~/.vim/config/plugins/vim-go.vim
+source ~/.vim/config/plugins/nvim-typescript.vim
 source ~/.vim/config/plugins/vim-fugitive.vim
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim

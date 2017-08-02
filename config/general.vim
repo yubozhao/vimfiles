@@ -1,6 +1,5 @@
 "Chnage cursor type between modes
 
-
 " turn on syntax highlighting
 syntax on
 
