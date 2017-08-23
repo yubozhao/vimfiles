@@ -20,7 +20,7 @@ Plug 'tpope/vim-fugitive'
 
 " Code auto completion in neovim
 if has('nvim')
-    Plug 'Shougo/deoplete.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'javascript.jsx'] }
     Plug 'zchee/deoplete-jedi', { 'for': 'python' } " python code auto completion
 else
@@ -60,8 +60,8 @@ Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'elzr/vim-json', { 'for': 'json' }
 
 " typescript
-Plug 'mhartington/nvim-typescript', { 'for': ['typescript', 'typescript.tsx'] }
 Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'typescript.tsx'] }
+Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': ['typescript', 'typescript.tsx'] }
 
 " Bazel
 Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
