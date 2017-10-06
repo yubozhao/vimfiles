@@ -1,7 +1,17 @@
 "nvim-typescript
 
 "Jump to definition
-au FileType go nmap <leader>d :execute 'TSDefPreview'<CR> 		  
+au FileType typescript nmap <leader>d :execute 'TSDefPreview'<CR> 		  
 
 " Find usage
-au FileType go nnoremap <leader>r :execute 'TSRef'<CR>
+au FileType typescript nnoremap <leader>r :execute 'TSRef'<CR>
+
+" Rename in the file
+function! ReplaceIt()
+  call inputsave()
+  let replacement = input('Enter rename:')
+  call inputrestore()
+  execute 'TSRename '.replacement
+endfunction
+
+au FileType typescript nnoremap <silent> <F2> :call ReplaceIt()<CR>

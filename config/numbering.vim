@@ -9,4 +9,4 @@ function! NumberToggle()
 endfunc
 
 " Toggle between normal and relative numbering.
-nnoremap <leader>r :call NumberToggle()<cr>
+" nnoremap <leader>r :call NumberToggle()<cr>

@@ -51,8 +51,8 @@ endif
 
 " indent settings
 set expandtab
-set shiftwidth=4
-set softtabstop=4
+set shiftwidth=2
+set softtabstop=2
 set textwidth=0
 set linespace=4
 set smarttab
@@ -93,9 +93,9 @@ set novisualbell
 set visualbell t_vb=
 
 " toggle paste mode
-nnoremap <F2> :set invpaste paste?<CR>
-imap <F2> <C-O>:set invpaste paste?<CR>
-set pastetoggle=<F2>
+nnoremap <F3> :set invpaste paste?<CR>
+imap <F3> <C-O>:set invpaste paste?<CR>
+set pastetoggle=<F3>
 
 inoremap jj <Esc><Esc>
 inoremap jk <Esc><Esc>
