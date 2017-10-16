@@ -18,6 +18,8 @@ Plug 'vim-syntastic/syntastic'
 
 Plug 'tpope/vim-fugitive'
 
+Plug 'easymotion/vim-easymotion'
+
 " Code auto completion in neovim
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -100,6 +102,7 @@ source ~/.vim/config/plugins/nerdtree.vim
 source ~/.vim/config/plugins/vim-go.vim
 source ~/.vim/config/plugins/nvim-typescript.vim
 source ~/.vim/config/plugins/vim-fugitive.vim
+source ~/.vim/config/plugins/easy-motion.vim
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim
 else
