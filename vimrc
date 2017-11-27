@@ -103,6 +103,7 @@ source ~/.vim/config/plugins/vim-go.vim
 source ~/.vim/config/plugins/nvim-typescript.vim
 source ~/.vim/config/plugins/vim-fugitive.vim
 source ~/.vim/config/plugins/easy-motion.vim
+source ~/.vim/config/plugins/vim-jsonnet.vim
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim
 else
