@@ -63,7 +63,7 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 
 " typescript
 Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'typescript.tsx'] }
-Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': ['typescript', 'typescript.tsx'] }
+Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': ['typescript', 'tsx', 'typescript.tsx'] }
 
 " Bazel
 Plug 'google/vim-ft-bzl', { 'for': 'bzl' }

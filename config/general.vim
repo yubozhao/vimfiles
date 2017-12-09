@@ -61,6 +61,9 @@ set autoindent
 autocmd BufEnter *.md set filetype=markdown
 autocmd BufEnter *.jsonnet.TEMPLATE set filetype=jsonnet
 
+" Set tsx file to typescript type
+autocmd BufEnter *.tsx set filetype=typescript
+
 autocmd FileType markdown setlocal textwidth=80
 autocmd FileType html,css,less,haml,sass,scss,ruby,javascript,javascript.jsx,jade,jsx,coffee,python,bzl,scala setlocal tabstop=2 shiftwidth=2 softtabstop=2 linespace=2
 autocmd FileType python set textwidth=0
