@@ -20,6 +20,10 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'easymotion/vim-easymotion'
 
+Plug 'tpope/vim-surround'
+
+Plug 'mg979/vim-visual-multi'
+
 " Code auto completion in neovim
 if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -32,6 +36,8 @@ endif
 " Auto completion for quotes, parens, brackets
 Plug 'Raimondi/delimitMate'
 
+" LSP (lanuage service protocol) support
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " General plugin
 Plug 'jkirchartz/writegooder.vim'
@@ -63,7 +69,8 @@ Plug 'elzr/vim-json', { 'for': 'json' }
 
 " typescript
 Plug 'HerringtonDarkholme/yats.vim', { 'for': ['typescript', 'typescript.tsx'] }
-Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': ['typescript', 'tsx', 'typescript.tsx'] }
+" Plug 'mhartington/nvim-typescript', { 'do': 'npm install -g typescript', 'for': ['typescript', 'tsx', 'typescript.tsx'] }
+Plug 'mhartington/nvim-typescript', {'do': ':!install.sh \| UpdateRemotePlugins', 'for': ['typescript', 'tsx', 'typescript.tsx'] }
 
 " Bazel
 Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
@@ -81,6 +88,7 @@ else
     let g:python_host_prog=substitute(system("which python2"), "\n", '', 'g')
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
+let g:python3_host_prog='/usr/local/anaconda3/bin/python'
 
 
 " Basic settings and key bindings
@@ -104,6 +112,7 @@ source ~/.vim/config/plugins/nvim-typescript.vim
 source ~/.vim/config/plugins/vim-fugitive.vim
 source ~/.vim/config/plugins/easy-motion.vim
 source ~/.vim/config/plugins/vim-jsonnet.vim
+source ~/.vim/config/plugins/oco-nvim.vim
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim
 else
