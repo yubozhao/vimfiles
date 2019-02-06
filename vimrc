@@ -24,20 +24,15 @@ Plug 'tpope/vim-surround'
 
 Plug 'mg979/vim-visual-multi'
 
-" Code auto completion in neovim
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'javascript.jsx'] }
-    Plug 'zchee/deoplete-jedi', { 'for': 'python' } " python code auto completion
-else
-    Plug 'Shougo/neocomplete.vim'
-endif
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 
 " Auto completion for quotes, parens, brackets
 Plug 'Raimondi/delimitMate'
 
 " LSP (lanuage service protocol) support
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 " General plugin
 Plug 'jkirchartz/writegooder.vim'
@@ -88,8 +83,6 @@ else
     let g:python_host_prog=substitute(system("which python2"), "\n", '', 'g')
     let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
 endif
-let g:python3_host_prog='/usr/local/anaconda3/bin/python'
-
 
 " Basic settings and key bindings
 source ~/.vim/config/general.vim
@@ -100,6 +93,7 @@ source ~/.vim/config/emacs.vim
 source ~/.vim/config/lastcursor.vim
 source ~/.vim/config/numbering.vim
 source ~/.vim/config/search.vim
+source ~/.vim/config/fold.vim
 
 " Plugin configurations
 source ~/.vim/config/plugins/airline.vim
@@ -112,7 +106,7 @@ source ~/.vim/config/plugins/nvim-typescript.vim
 source ~/.vim/config/plugins/vim-fugitive.vim
 source ~/.vim/config/plugins/easy-motion.vim
 source ~/.vim/config/plugins/vim-jsonnet.vim
-source ~/.vim/config/plugins/oco-nvim.vim
+" source ~/.vim/config/plugins/coc-nvim.vim
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim
 else
