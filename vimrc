@@ -28,6 +28,9 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 
+"" Color schema plugin
+Plug 'morhetz/gruvbox'
+
 " Auto completion for quotes, parens, brackets
 Plug 'Raimondi/delimitMate'
 
