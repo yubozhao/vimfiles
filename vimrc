@@ -26,19 +26,26 @@ Plug 'mg979/vim-visual-multi'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }
-
 "" Color schema plugin
 Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-solarized8'
+Plug 'nanotech/jellybeans.vim'
+Plug 'jnurmine/Zenburn'
+
+"" automatically switch color theme
+Plug 'nightsense/night-and-day'
 
 " Auto completion for quotes, parens, brackets
 Plug 'Raimondi/delimitMate'
 
 " LSP (lanuage service protocol) support
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 
 " General plugin
-Plug 'jkirchartz/writegooder.vim'
+" Plug 'jkirchartz/writegooder.vim'
+Plug 'rhysd/vim-grammarous'
 
 """ Language specific plugins
 
@@ -76,6 +83,14 @@ Plug 'google/vim-ft-bzl', { 'for': 'bzl' }
 " golang
 Plug 'fatih/vim-go', { 'for': ['golang', 'go'] }
 
+
+" Python
+" Plug 'google/yapf', { 'rtp': 'plugins/vim', 'for': 'python' }
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+" Plug 'davidhalter/jedi-vim', { 'for': 'python'}
+Plug 'python/black', { 'for': 'python'}
+
+
 call plug#end()
 
 " use the correct python
@@ -109,7 +124,10 @@ source ~/.vim/config/plugins/nvim-typescript.vim
 source ~/.vim/config/plugins/vim-fugitive.vim
 source ~/.vim/config/plugins/easy-motion.vim
 source ~/.vim/config/plugins/vim-jsonnet.vim
-" source ~/.vim/config/plugins/coc-nvim.vim
+source ~/.vim/config/plugins/night-and-day.vim
+source ~/.vim/config/plugins/vim-lsp.vim
+" source ~/.vim/config/plugins/jedi.vim
+
 if has('nvim') " neovim only plugin
     source ~/.vim/config/plugins/deoplete.vim
 else

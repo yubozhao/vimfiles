@@ -1,8 +1,8 @@
 " Nerd Tree 
 let NERDChristmasTree=1
-let NERDTreeWinSize=25
+let NERDTreeWinSize=30
 let NERDTreeChDirMode=2
-let NERDTreeIgnore=['\~$', '\.git$', '\.swp$', '\.jsx.js$']
+let NERDTreeIgnore=['\~$', '\.git$', '\.swp$', '\.jsx.js$', '\.pyc$']
 let NERDTreeSortOrder=['\/$','\.rb$','\.py$','\.c$','\.js$','*','.txt$','.md$']
 
 " Toggle to display nerdtree menu

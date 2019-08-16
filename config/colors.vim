@@ -9,7 +9,12 @@ else
         set termguicolors
         set t_Co=256
         set background=dark
+        set guifont=SFMono\ Nerd\ Font:h12
+        let g:gruvbox_contrast_dark="soft"
         colorscheme gruvbox
+        " colorscheme zenburn
+        " colorscheme solarized8_low
+        " colorscheme jellybeans
     else
         set t_Co=256
         set background=dark

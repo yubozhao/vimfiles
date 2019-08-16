@@ -7,4 +7,5 @@
 " zr - reduces auto fold depth
 
 set foldmethod=indent
-set foldlevel=1
+set foldlevel=20
+" set nofoldenable
